@@ -24,8 +24,18 @@ Given the following two data types:
 
 **Todos:**
 - How many different values exist of type `(Bool, RGB)`? Write them down.
+-- Bool * RGB = 2 * 3 = 6 values.
+-- (False/True, R/G/B)
 - How many different values exist of type `Either Bool RGB`? Write them down.
+-- Bool + RGB = 2 + 3 = 5 values.
+-- Left: Bool, true and false
+-- Right: RGB, R and G and B
 - How many different values exist of type `RGB -> Bool`? Write them down.
+-- RGB -> Bool = 2^3 = 8 values.
+-- (False, False, False)
+-- (False, False, True)
+-- (..., ..., ...)
+-- (True, True, True)
 
 Two types `A` and `B` are isomorphic if two functions can be provided:\
 `aTob :: A -> B` and `bToA :: B -> A` such that\
@@ -58,7 +68,25 @@ bToa1 B = Right True
 
 **Todos:**
 - Show that `(Bool,a)` is isomorphic to `Either a a`.
+-- Bool, a = 2 * a
+-- Either a a = a + a = 2 * a
+
+-- toEither :: (Bool, a) -> Either a a
+-- toEither (False, x) = Left x
+-- toEither (True,  x) = Right x
+
+-- fromEither :: Either a a -> (Bool, a)
+-- fromEither (Left x)  = (False, x)
+-- fromEither (Right x) = (True,  x)
+
 - Show that `(a -> b -> c)` is isomorphic to `(a, b) -> c`. This is un- currying.
+-- both types describe functions a,b -> c
+
+-- toUncurried :: (a -> b -> c) -> (a, b) -> c
+-- toUncurried f (x, y) = f x y
+
+-- fromUncurried :: ((a, b) -> c) -> a -> b -> c
+-- fromUncurried g x y = g (x, y)
 
 **Note:**\
 Note that this topic can be explored further: One can use [taylor approximation to think about recursive structures](https://web.archive.org/web/20140222144454/http://chris-taylor.github.io/blog/2013/02/11/the-algebra-of-algebraic-data-types-part-ii) and even [derivatives of data types](http://strictlypositive.org/diff.pdf) have a useful interpretation. So be aware: This is a rabbit hole!
